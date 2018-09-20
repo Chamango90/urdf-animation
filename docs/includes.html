@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+        <script src="../node_modules/three/build/three.min.js"></script>
+        <script src="../node_modules/three/examples/js/controls/OrbitControls.js"></script>
+        <script src="../node_modules/three/examples/js/loaders/STLLoader.js"></script>
+        <script src="../node_modules/three/examples/js/loaders/ColladaLoader.js"></script>
+        <script src="../node_modules/urdf-loader/URDFLoader.js"></script>
+        <script src="../node_modules/urdf-loader/urdf-viewer-element.js"></script>
+        <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script> <!-- Optional. For control_gui or GIF-->
+        <script src="../node_modules/gif.js.optimized/dist/gif.js"></script> <!-- Optional. For GIF-->
+        <script src="../AnimationWrapper.js"></script> <!--TODO-->
+        <style type="text/css"> html, body, urdf-viewer {height: 100%; width: 100%; overflow: hidden;} </style>
+    </head>
+    <body>
+        <urdf-viewer id="viewer" display-shadow auto-redraw no-auto-recenter></urdf-viewer>
+        <script src="./config.js"></script>
+    </body>
+</html>

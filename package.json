@@ -1,0 +1,37 @@
+{
+  "name": "urdf-animation",
+  "version": "0.2.0",
+  "description": "Animation loader for URDF viewer",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack",
+    "lint": "eslint *.js",
+    "release": "npm-github-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipa-jfh/robot-recorder-npm.git"
+  },
+  "author": "“Jonathan <“jonathan.hechtbauer@gmail.com”>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ipa-jfh/robot-recorder-npm/issues"
+  },
+  "homepage": "https://github.com/ipa-jfh/robot-recorder-npm#readme",
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.1.3",
+    "dat.gui": "^0.7.2",
+    "eslintrc": "^1.0.6",
+    "file-loader": "^2.0.0",
+    "gif.js.optimized": "^1.0.1",
+    "json-loader": "^0.5.7",
+    "script-loader": "^0.7.2",
+    "three": "^0.96.0",
+    "threejs-model-loader": "0.0.7",
+    "urdf-loader": "^0.4.2",
+    "wc-loader": "^1.1.12"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.0"
+  }
+}
