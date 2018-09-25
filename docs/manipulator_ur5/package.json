@@ -1,0 +1,17 @@
+{
+  "name": "application_scan_and_plan",
+  "version": "1.0.0",
+  "description": "Manipulator examples for URDF-animation",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": " webpack"
+  },
+  "author": "“Jonathan <“jonathan.hechtbauer@gmail.com”>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "urdf-animation": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslintrc": "^1.0.6"
+  }
+}
