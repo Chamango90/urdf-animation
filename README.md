@@ -24,24 +24,44 @@ A wrapper for [gkjohnson/urdf-loaders](https://github.com/gkjohnson/urdf-loaders
 
 ## Usage
 
-Run the example locally. Either:
-- open the `include.html`
-- open the `index.html` (bundled)
-- by `webpack-dev-server`:
+### Run the examples locally
 
-```bash
-sudo npm i webpack-dev-server@2.9.1 -g --save-dev
-sudo npm i webpack@3.9.0 -g
-cd inside-the-example-pkg
-npm start
-```
+1. Download repo and go inside one example
+    ```bash
+    git clone https://github.com/ipa-jfh/urdf-animation
+    cd urdf-animation/docs/mobile_robot_turtlebot3
+    ```
 
-## Create page for your animation:
-```bash
-mkdir my_animation && cd my_animation
-npm init \\ Minimal OK for all steps
+1. Now either
+    1. Open the `index.html` (this uses the bundled js files)
+    1. Install npm packages and open `includes.html`
+        ```bash
+        npm install
+        ```
+    1. Install npm packages and run the webpack-dev-server 
+        ```bash
+        npm install
+        sudo npm i webpack-dev-server@2.9.1 -g --save-dev
+        sudo npm i webpack@3.9.0 -g
+        npm start  
+        ```
 
-\\ add urdf, animation, world, index.js
-\\ link to index.html of `urdf-animation`
-\\ TODO explain more detailed
-```
+### Create new page for your animation:
+1. Create a new npm package
+    ```bash
+    mkdir my_animation && cd my_animation
+    npm init 
+    ```
+1. In `package.json` add dependecy to `urdf-animation` like in [example](https://github.com/ipa-jfh/urdf-animation/blob/master/docs/mobile_robot_turtlebot3/package.json)
+1. Install dependecies
+    ```bash
+    npm install
+    ```
+1. Copy the template folder`s contest inside your package. E.g.:
+    ```bash
+    cp ./node_modules/animation/template/* .
+    ```
+1. Add your URDF and recorded animation and reference it in the `config.js` file
+1. Further configer the `config.js` file to e.g. adjust camera and lights
+
+=> Now everthing is set-up and you can run the animation (See ### Run the examples locally) 
