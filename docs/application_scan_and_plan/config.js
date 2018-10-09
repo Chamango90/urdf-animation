@@ -5,7 +5,7 @@ document.addEventListener('WebComponentsReady', () => {
         // https://github.com/gkjohnson/urdf-loaders
         urdf: './static/snp_prbt.urdf',
         packagesContainingMeshes: [
-            'snp_psir_description: https://raw.githubusercontent.com/rosin-project/automatica18_scan_and_plan_demo/master/snp_psir_description',
+            'snp_prbt_description: https://raw.githubusercontent.com/rosin-project/automatica18_scan_and_plan_demo/master/snp_prbt_description',
             'prbt_support: https://raw.githubusercontent.com/PilzDE/pilz_robots/kinetic-devel/prbt_support'
         ]
     });
