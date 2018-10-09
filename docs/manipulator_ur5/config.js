@@ -3,25 +3,26 @@ document.addEventListener('WebComponentsReady', () => {
 
     vw.addURDF({
         // https://github.com/gkjohnson/urdf-loaders
-        urdf: './static/ur5.urdf',
+        urdf: './static/ur5_with_cam.urdf',
         packagesContainingMeshes: [
-            'ur_description: https://raw.githubusercontent.com/ros-industrial/universal_robot/kinetic-devel/ur_description'
+            'ur_description: https://raw.githubusercontent.com/ros-industrial/universal_robot/kinetic-devel/ur_description',
+            'openni_description: https://raw.githubusercontent.com/ros-drivers/openni_camera/indigo-devel/openni_description'
         ]
     });
 
     /// [optional]
     vw.addAnimation({
         // https://github.com/ipa-jfh/urdf-animation
-        animation: './static/test_move.json',
+        animation: './static/recording.json',
         fading: 0.0,
-        //controlGUI: true
+        controlGUI: true
     });
 
     /// [optional]
     vw.setCamera({
         // https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
-        fov: 10,
-        position: [10, 5, -5]
+        fov: 7,
+        position: [0, 2, -10]
     });
 
     /// [optional]

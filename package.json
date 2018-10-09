@@ -1,6 +1,6 @@
 {
   "name": "urdf-animation",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Animation loader for URDF viewer",
   "files": [
     "/template",
