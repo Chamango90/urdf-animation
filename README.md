@@ -61,7 +61,7 @@ A wrapper for [gkjohnson/urdf-loaders](https://github.com/gkjohnson/urdf-loaders
     ```
 1. Copy the template folder`s contest inside your package. E.g.:
     ```bash
-    cp ./node_modules/animation/template/* .
+    cp ./node_modules/urdf-animation/template/* .
     ```
 1. Add your URDF and recorded animation and reference it in the `config.js` file
 1. Further configer the `config.js` file to e.g. adjust camera and lights
