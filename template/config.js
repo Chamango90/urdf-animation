@@ -13,7 +13,7 @@ document.addEventListener('WebComponentsReady', () => {
     /// [optional]
     vw.addAnimation({
         // https://github.com/ipa-jfh/urdf-animation
-        animation: './static/example.js',
+        animation: './static/recording.json',
         fading: 0.0,
         controlGUI: true
     });
