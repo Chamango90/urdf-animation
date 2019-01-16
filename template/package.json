@@ -1,7 +1,7 @@
 {
-  "name": "mobile_robot_animation",
+  "name": "my_awesome_animation",
   "version": "1.0.0",
-  "description": "Mobile robot examples for URDF-animation",
+  "description": "Template for URDF-animation",
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack"

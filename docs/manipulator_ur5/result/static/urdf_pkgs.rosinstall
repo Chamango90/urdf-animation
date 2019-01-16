@@ -1,0 +1,9 @@
+- git:
+    local-name: ur_description
+    uri: https://github.com/ros-industrial/universal_robot.git
+    version: kinetic-devel
+
+- git:
+    local-name: openni_description
+    uri: https://github.com/ros-drivers/openni_camera.git
+    version: indigo-devel

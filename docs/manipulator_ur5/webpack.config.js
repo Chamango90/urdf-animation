@@ -1,18 +1,26 @@
+const path = require('path');
+
 module.exports = {
-	entry: __dirname + '/includes.html',
+    entry: './src/includes.html',
 
-	output: {
-		path: __dirname,
-		filename: 'index.bundle.js'
-	},
+    output: {
+        path: path.resolve(__dirname, 'result'),
+        filename: 'index.bundle.js'
+    },
 
-	module: {
+    devServer: {
+        contentBase: path.join(__dirname, 'result'),
+        compress: true,
+        port: 9000
+    },
+
+    module: {
         rules: [{
             test: /\.html$/,
-            use: [{loader: 'wc-loader'}]
+            use: [{ loader: 'wc-loader' }]
         }, {
             test: /\.js$/,
-            use: [{loader: 'script-loader'}]
+            use: [{ loader: 'script-loader' }]
         }]
     }
 };

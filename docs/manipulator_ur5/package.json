@@ -1,17 +1,19 @@
 {
-  "name": "application_scan_and_plan",
+  "name": "manipulation_animation",
   "version": "1.0.0",
   "description": "Manipulator examples for URDF-animation",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": " webpack"
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
   },
-  "author": "“Jonathan <“jonathan.hechtbauer@gmail.com”>",
   "license": "Apache-2.0",
   "dependencies": {
-    "urdf-animation": "^0.3.0"
+    "urdf-animation": "^1.0.5"
   },
   "devDependencies": {
-    "eslintrc": "^1.0.6"
+    "script-loader": "^0.7.0",
+    "wc-loader": "^1.1.12",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   }
 }

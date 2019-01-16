@@ -4,7 +4,7 @@ document.addEventListener('WebComponentsReady', () => {
     vw.addURDF({
         // https://github.com/gkjohnson/urdf-loaders
         urdf: './static/turtlebot3_burger_colored.urdf',
-        packagesContainingMeshes: [
+        urdfPkgs: [
             'turtlebot3_description: https://raw.githubusercontent.com/ROBOTIS-GIT/turtlebot3/0.2.1/turtlebot3_description'
         ]
     });
