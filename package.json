@@ -1,15 +1,16 @@
 {
   "name": "urdf-animation",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Animation loader for URDF viewer",
   "files": [
     "/template",
     "/template/static/gif.worker.js",
-    "AnimationWrapper.js"
+    "AnimationWrapper.js",
+    "umd/AnimationWrapper.js"
   ],
+  "module": "./umd/AnimationWrapper.js",
   "scripts": {
-    "start": "webpack-dev-server --config docs/webpack.config.js --content-base  docs",
-    "build": " webpack --config docs/webpack.config.js",
+    "build": "rollup -c",
     "lint": "eslint *.js"
   },
   "repository": {
@@ -26,13 +27,14 @@
     "@webcomponents/webcomponentsjs": "^2.1.3",
     "dat.gui": "^0.7.2",
     "gif.js": "^0.2.0",
-    "script-loader": "^0.7.2",
-    "three": "^0.96.0",
-    "urdf-loader": "^0.4.2",
-    "webpack-cli": "^3.1.0",
+    "js-yaml": "^3.12.0",
+    "script-loader": "^0.7.0",
+    "three": "^0.99.0",
+    "urdf-loader": "^0.5.3",
     "wc-loader": "^1.1.12"
   },
   "devDependencies": {
-    "eslintrc": "^1.0.6"
+    "eslintrc": "^1.0.6",
+    "rollup": "^0.66.6"
   }
 }
