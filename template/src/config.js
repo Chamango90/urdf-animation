@@ -3,11 +3,8 @@ document.addEventListener('WebComponentsReady', () => {
 
     vw.addURDF({
         // https://github.com/gkjohnson/urdf-loaders
-        urdf: 'https://raw.githubusercontent.com/ros/urdf_tutorial/master/urdf/05-visual.urdf',
-        // or local one using './static/model.urdf',
-        urdfPkgs: [
-            'urdf_tutorial: https://raw.githubusercontent.com/ros/urdf_tutorial/master'
-        ]
+        urdf: './static/model.urdf',
+        urdfPkgs: './static/urdf_deps.rosinstall'
     });
 
     /// [optional]
@@ -21,14 +18,14 @@ document.addEventListener('WebComponentsReady', () => {
     /// [optional]
     vw.setCamera({
         // https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
-        fov: 10,
-        position: [10, 5, -5]
+        fov: 7,
+        position: [0, 2, -10]
     });
 
     /// [optional]
     vw.setLight({
         // https://threejs.org/docs/#api/en/lights/DirectionalLight
-        position: [20, 100, -40],
+        position: [60, 100, 50],
         shadow: {
             bias: -0.0001,
             mapSize: {
