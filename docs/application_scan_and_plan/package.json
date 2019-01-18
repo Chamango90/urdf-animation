@@ -8,7 +8,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "urdf-animation": "^1.0.7"
+    "urdf-animation": "^1.0.8"
   },
   "devDependencies": {
     "script-loader": "^0.7.0",
