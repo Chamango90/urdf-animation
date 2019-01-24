@@ -4,17 +4,17 @@ A wrapper for [gkjohnson/urdf-loaders](https://github.com/gkjohnson/urdf-loaders
 
 ## Examples
 
-<a href="https://ipa-jfh.github.io/urdf-animation/manipulator_ur5/">
+<a href="https://ipa-jfh.github.io/urdf-animation/manipulator_ur5/result/">
     <img src="https://user-images.githubusercontent.com/17281534/46695927-2b6eeb80-cc11-11e8-8d91-d1ac6bec8810.gif" width="535" height="423">
     >> 3D animation
 </a>
 
-<a href="https://ipa-jfh.github.io/urdf-animation/application_scan_and_plan/">
+<a href="https://ipa-jfh.github.io/urdf-animation/application_scan_and_plan/result/">
     <img src="https://user-images.githubusercontent.com/17281534/46005937-aafba700-c0b6-11e8-9d8f-0148392488f1.gif" width="430" height="250">
     >> 3D animation
 </a>
 
-<a href="https://ipa-jfh.github.io/urdf-animation/mobile_robot_turtlebot3/">
+<a href="https://ipa-jfh.github.io/urdf-animation/mobile_robot_turtlebot3/result/">
     <img src="https://user-images.githubusercontent.com/17281534/46012246-e30be580-c0c8-11e8-953b-244bf7070d7b.gif" width="430" height="250">
     >> 3D animation
 </a>
