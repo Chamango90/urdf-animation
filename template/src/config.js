@@ -4,7 +4,7 @@ document.addEventListener('WebComponentsReady', () => {
     vw.addURDF({
         // https://github.com/gkjohnson/urdf-loaders
         urdf: './static/model.urdf',
-        urdfPkgs: './static/urdf_deps.rosinstall'
+        urdfPkgs: './static/urdf_pkgs.rosinstall'
     });
 
     /// [optional]
