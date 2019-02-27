@@ -13,6 +13,10 @@
         constructor() {
 
             super();
+
+            // removed shader bug https://github.com/mrdoob/three.js/issues/9716
+            this.renderer.context.getShaderInfoLog = function () { return ''; };
+
             this.defaultTitle = 'URDF animation';
             //if (document.title == '') document.title = this.defaultTitle;
             const meshOnlyLoader = this.urdfLoader.defaultMeshLoader.bind(this.urdfLoader);
@@ -25,16 +29,21 @@
                             obj.remove(obj.children[i]);
                         }
                     }
+
                     done(obj);
                 });
             };
+
+            this.clock = new THREE.Clock();
 
             this.controls.enablePan = true;
             this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
             this.controls.dampingFactor = 0.25;
             this.controls.screenSpacePanning = false;
             this.controls.maxPolarAngle = Math.PI / 2;
-            this.controls.removeEventListener('change', () => this.recenter());
+            // this.controls.removeEventListener('change', () => this.recenter());
+
+
         }
 
         _setRecorder(quality, speed) {
@@ -51,6 +60,17 @@
             });
             this.mixer.timeScale = speed;
             this.action.paused = false;
+        }
+
+
+        renderLoop() {
+            requestAnimationFrame(this.renderLoop.bind(this));
+            this.mixer.update(this.clock.getDelta());
+
+            if (this.recording) {
+                this.gif.addFrame(this.canvas, { delay: this.delay, copy: true });
+                this.updateRecordBar();
+            }
         }
 
         _addGIFConverterGUI() {
@@ -101,60 +121,54 @@
             this.directionalLight.shadow.mapSize.height = data.shadow.mapSize.width;
         }
 
+
         addURDF(data) {
 
-            super.urdf = data.urdf;
+            this.setUrdf = (urdf) => {
+                super.urdf = urdf;
+            };
 
-            if (Object.prototype.toString.call(data.urdfPkgs) === "[object String]")
+            if (Object.prototype.toString.call(data.urdfPkgs) === '[object String]')
 
                 new THREE.FileLoader().load(data.urdfPkgs, pkgs => {
-                    super.package = parse_rosinstall(pkgs);
+                    super.package = parseRosinstall(pkgs);
+                    this.setUrdf(data.urdf); // once the packages are parsed
                 });
 
             else {
                 let pkgs = data.urdfPkgs || [];
                 super.package = pkgs.join(', ');
+                this.setUrdf(data.urdf);
             }
+
         }
+
 
         addAnimation(data) {
 
             this.addEventListener('geometry-loaded', () => {
 
                 new THREE.FileLoader().load(data.animation, anim => {
-
                     // Load recorded robot motion into a Three.js clipAction
                     const fading = data.fading || 0.0;
                     const controlGUI = data.controlGUI | false;
+                    const loopOnce = data.loopOnce | false;
 
-                    this.clock = new THREE.Clock();
                     this.mixer = new THREE.AnimationMixer(this.world);
-
                     this.track = THREE.AnimationClip.parse(JSON.parse(anim));
-                    //if (document.title == this.defaultTitle) document.title = this.track.name + ' animation';
-
                     this.action = this.mixer.clipAction(this.track);
-                    this.status = { recording: false };
                     this.action.fadeIn(fading).play();
-
+                    if (loopOnce) {
+                        this.action.setLoop(THREE.LoopOnce);
+                        this.action.clampWhenFinished = true;
+                    }
                     if (this.gui == null) this.gui = new dat.GUI();
-                    if (controlGUI) { addControlGUI(this.gui, this.action, this.track, fading); }
+                    if (controlGUI) addControlGUI(this.gui, this.action, this.track, fading);
 
                     this.dispatchEvent(new CustomEvent('animation-loaded', { bubbles: true, cancelable: true, composed: true }));
-
-                    let animate = function () {
-                        requestAnimationFrame(animate);
-                        this.mixer.update(this.clock.getDelta());
-
-                        if (this.recording) {
-                            this.gif.addFrame(this.canvas, { delay: this.delay, copy: true });
-                            this.updateRecordBar();
-                        }
-                    }.bind(this);
-
-                    animate();
+                    this.renderLoop();
                 });
-            });
+            }, { once: true });
         }
 
         addGIFConverter(data) {
@@ -167,8 +181,6 @@
                     workers: data.workers || 2,
                     workerScript: data.workerScript || 'gif.worker.js',
                     background: data.background || '#fff',
-                    //width: this.canvas.width,
-                    //height: this.canvas.height,
                     transparent: this.transparent || null, // hex color, 0x00FF00 = green
                     dither: data.dither || false, // e.g. FloydSteinberg-serpentine
                     debug: data.debug || false,
@@ -179,7 +191,7 @@
                 this.renderer.setClearColor(0xffffff); //white bg for recorded gif
 
                 this._addGIFConverterGUI();
-            });
+            });// TODO check if "once" is better
         }
 
         addWorld(data) {
@@ -225,17 +237,17 @@
         folder.add(API, 'fade in()');
     }
 
-    function parse_rosinstall(pkgs) {
+    function parseRosinstall(pkgs) {
 
         function gitraw(uri) {
-            const base = "https://raw.githubusercontent.com/";
-            const repo = uri.split("https://github.com/")[1].split(".git")[0];
+            const base = 'https://raw.githubusercontent.com/';
+            const repo = uri.split('https://github.com/')[1].split('.git')[0];
             return base + repo;
         }
 
         //Hardcoded for git
-        function g(obj, key) { return obj["git"][key] }
-        let l = "local-name", u = "uri", v = "version";
+        function g(obj, key) { return obj['git'][key]; }
+        let l = 'local-name', u = 'uri', v = 'version';
 
         return jsyaml.load(pkgs).map(i => `${g(i, l)}: ${gitraw(g(i, u))}/${g(i, v)}/${g(i, l)}`);
 
