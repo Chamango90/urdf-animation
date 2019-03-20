@@ -1,12 +1,11 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('three'), require('urdf-loader')) :
-    typeof define === 'function' && define.amd ? define(['three', 'urdf-loader'], factory) :
-    (global.AnimationWrapper = factory(global.THREE,global.URDFViewer));
-}(this, (function (THREE,URDFViewer) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('three'), require('urdf-loader'), require('urdf-loader/src/URDFLoader.js')) :
+    typeof define === 'function' && define.amd ? define(['three', 'urdf-loader', 'urdf-loader/src/URDFLoader.js'], factory) :
+    (global.AnimationWrapper = factory(global.THREE,global.URDFViewer,global.URDFLoader));
+}(this, (function (THREE,URDFViewer,URDFLoader) { 'use strict';
 
     URDFViewer = URDFViewer && URDFViewer.hasOwnProperty('default') ? URDFViewer['default'] : URDFViewer;
-
-    // import URDFViewer from 'urdf-loader/urdf-viewer-element.js';
+    URDFLoader = URDFLoader && URDFLoader.hasOwnProperty('default') ? URDFLoader['default'] : URDFLoader;
 
     class AnimationWrapper extends URDFViewer {
 
@@ -17,22 +16,38 @@
             // removed shader bug https://github.com/mrdoob/three.js/issues/9716
             this.renderer.context.getShaderInfoLog = function () { return ''; };
 
-            this.defaultTitle = 'URDF animation';
-            //if (document.title == '') document.title = this.defaultTitle;
-            const meshOnlyLoader = this.urdfLoader.defaultMeshLoader.bind(this.urdfLoader);
-            this.urdfLoader.defaultMeshLoader = (path, ext, done) => {
+            if (typeof this.urdfLoader === "undefined") {
+                // URDF-loader version after 0.6.0
+                this.loadMeshFunc = (path, manager, done) => {
+                    new URDFLoader(manager).defaultMeshLoader(path, manager, obj => {
+                        for (let i = obj.children.length - 1; i >= 0; i--) {
 
-                meshOnlyLoader(path, ext, obj => {
-                    for (let i = obj.children.length - 1; i >= 0; i--) {
-
-                        if (obj.children[i].type !== 'Mesh') {
-                            obj.remove(obj.children[i]);
+                            if (obj.children[i].type !== 'Mesh') {
+                                obj.remove(obj.children[i]);
+                            }
                         }
-                    }
 
-                    done(obj);
-                });
-            };
+                        done(obj);
+                    });
+                };
+                // this.loadMeshFunc = (path, manager, done) => meshOnlyLoader(path, manager, done)
+            }
+            else {
+                // URDF-loader version before 0.6.0
+                const meshOnlyLoader_ = this.urdfLoader.defaultMeshLoader.bind(this.urdfLoader);
+                this.urdfLoader.defaultMeshLoader = (path, ext, done) => {
+
+                    meshOnlyLoader_(path, ext, obj => {
+                        for (let i = obj.children.length - 1; i >= 0; i--) {
+
+                            if (obj.children[i].type !== 'Mesh') {
+                                obj.remove(obj.children[i]);
+                            }
+                        }
+                        done(obj);
+                    });
+                };
+            }
 
             this.clock = new THREE.Clock();
 
@@ -66,7 +81,6 @@
         renderLoop() {
             requestAnimationFrame(this.renderLoop.bind(this));
             this.mixer.update(this.clock.getDelta());
-
             if (this.recording) {
                 this.gif.addFrame(this.canvas, { delay: this.delay, copy: true });
                 this.updateRecordBar();

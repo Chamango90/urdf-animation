@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import URDFViewer from 'urdf-loader';
+import URDFLoader from 'urdf-loader/src/URDFLoader.js';
 
-// import URDFViewer from 'urdf-loader/urdf-viewer-element.js';
 
 export default
     class AnimationWrapper extends URDFViewer {
@@ -13,22 +13,37 @@ export default
         // removed shader bug https://github.com/mrdoob/three.js/issues/9716
         this.renderer.context.getShaderInfoLog = function () { return ''; };
 
-        this.defaultTitle = 'URDF animation';
-        //if (document.title == '') document.title = this.defaultTitle;
-        const meshOnlyLoader = this.urdfLoader.defaultMeshLoader.bind(this.urdfLoader);
-        this.urdfLoader.defaultMeshLoader = (path, ext, done) => {
+        if (typeof this.urdfLoader === "undefined") {
+            // URDF-loader version after 0.6.0
+            this.loadMeshFunc = (path, manager, done) => {
+                new URDFLoader(manager).defaultMeshLoader(path, manager, obj => {
+                    for (let i = obj.children.length - 1; i >= 0; i--) {
 
-            meshOnlyLoader(path, ext, obj => {
-                for (let i = obj.children.length - 1; i >= 0; i--) {
-
-                    if (obj.children[i].type !== 'Mesh') {
-                        obj.remove(obj.children[i]);
+                        if (obj.children[i].type !== 'Mesh') {
+                            obj.remove(obj.children[i]);
+                        }
                     }
-                }
 
-                done(obj);
-            });
-        };
+                    done(obj);
+                });
+            };
+        }
+        else {
+            // URDF-loader version before 0.6.0
+            const meshOnlyLoader_ = this.urdfLoader.defaultMeshLoader.bind(this.urdfLoader);
+            this.urdfLoader.defaultMeshLoader = (path, ext, done) => {
+
+                meshOnlyLoader_(path, ext, obj => {
+                    for (let i = obj.children.length - 1; i >= 0; i--) {
+
+                        if (obj.children[i].type !== 'Mesh') {
+                            obj.remove(obj.children[i]);
+                        }
+                    }
+                    done(obj);
+                });
+            };
+        }
 
         this.clock = new THREE.Clock();
 
@@ -62,7 +77,6 @@ export default
     renderLoop() {
         requestAnimationFrame(this.renderLoop.bind(this));
         this.mixer.update(this.clock.getDelta());
-
         if (this.recording) {
             this.gif.addFrame(this.canvas, { delay: this.delay, copy: true });
             this.updateRecordBar();
